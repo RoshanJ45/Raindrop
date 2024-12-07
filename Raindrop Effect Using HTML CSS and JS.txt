@@ -1,0 +1,83 @@
+<html>
+<body>
+<!-- HTML -->
+<style>
+    body {
+margin: 0;
+overflow: hidden;
+background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+position: relative;
+height: 100vh;
+}
+.raindrop {
+position: absolute;
+width: 5px;
+height: 15px;
+background: rgba(173, 216, 230, 0.8);
+border-radius: 50%;
+animation: fall linear forwards;
+pointer-events: none;
+}
+.ripple {
+position: absolute;
+width: 10px;
+height: 10px;
+border: 2px solid rgba(173, 216, 230, 0.6);
+border-radius: 50%;
+opacity: 1;
+animation: ripple-animation 1s ease-out forwards;
+}
+@keyframes fall {
+0% {
+transform: translateY(-100px);
+opacity: 1;
+}
+100% {
+transform: translateY(100vh);
+opacity: 0.5;
+}
+}
+@keyframes ripple-animation {
+0% {
+transform: scale(0.1);
+opacity: 0.6;
+}
+100% {
+transform: scale(3);
+opacity: 0;
+}
+}
+</style>
+<script>
+    function createRaindrop() {
+const raindrop = document.createElement('div');
+raindrop.classList.add('raindrop');
+// Random position for raindrops
+const x = Math.random() * window.innerWidth;
+raindrop.style.left = `${x}px`;
+raindrop.style.animationDuration = `${Math.random() * 2 + 1}s`;
+// Append to body
+document.body.appendChild(raindrop);
+// Add ripple effect on "ground"
+raindrop.addEventListener('animationend', () => {
+createRipple(x, window.innerHeight - 10);
+raindrop.remove();
+});
+}
+function createRipple(x, y) {
+const ripple = document.createElement('div');
+ripple.classList.add('ripple');
+ripple.style.left = `${x - 5}px`;
+ripple.style.top = `${y}px`;
+// Append to body
+document.body.appendChild(ripple);
+// Remove after animation
+ripple.addEventListener('animationend', () => {
+ripple.remove();
+});
+}
+// Generate raindrops dynamically
+setInterval(createRaindrop, 100);
+</script>
+</body>
+</html>
